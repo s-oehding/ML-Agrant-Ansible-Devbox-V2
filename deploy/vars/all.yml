@@ -1,0 +1,48 @@
+---
+setup:
+  http_port: 80
+  hostname: '{{ vm_hostname }}'
+  domain: '{{ vm_url }}'
+server:
+  timezone: Europe/Berlin
+  locale: de_DE.UTF-8
+apache:
+  vhosts:
+    php56: [php56, shopware56]
+    php70: [php70, shopware70]
+logio:
+  logio_backend_port: '28777'
+  logio_frontend_port: '28778'
+  logio_user: 'vagrant'
+  subdomain: 'log'
+mysql:
+  mysql_root_password: 'root'
+nodejs:
+  nodejs_version: '6.x'
+php:
+  install: '1'
+  ppa: php
+  packages: [php7.0-cli, php7.0-zip, php7.0-intl, php7.0-mcrypt, php7.0-curl, php7.0-cgi, php7.0-common, php7.0-gd, php7.0-memcache, php7.0-memcached, php7.0-mysql, php7.0-mbstring, php7.0-xdebug, php5.6-cli, php5.6-intl, php5.6-mcrypt, php-pear, php5.6-curl, php5.6-cgi, php5.6-common, php5.6-mbstring, php5.6-gd, php5.6-memcache, php5.6-memcached, php5.6-mysql, php5.6-xdebug]
+  php_memory_limit: '512M'
+  php_max_execution_time: '120'
+  php_max_input_time: '120'
+  php_max_input_vars: '1000'
+  php_realpath_cache_size: '32K'
+  php_upload_max_filesize: '64M'
+  php_post_max_size: '32M'
+  php_date_timezone: '{{server.timezone}}'
+  php_allow_url_fopen: 'On'
+  php_sendmail_path: '/usr/sbin/sendmail -t -i'
+  php_output_buffering: '4096'
+  php_short_open_tag: false
+  php_error_reporting: 'E_ERROR | E_WARNING | E_PARSE | E_NOTICE'
+  php_error_log: '/var/log/php/error.log'
+  php_display_errors: 'On'
+  php_display_startup_errors: 'On'
+  php_expose_php: 'On'
+  php_session_cookie_lifetime: 0
+  php_session_gc_probability: 1
+  php_session_gc_divisor: 1000
+  php_session_gc_maxlifetime: 1440
+  php_session_save_handler: files
+  php_session_save_path: ''

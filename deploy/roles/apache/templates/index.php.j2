@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>::ML Default Index::</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://bootswatch.com/sandstone/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+    <style>
+    body {
+        overflow-x: hidden;
+    }
+    /* Toggle Styles */
+    
+    #wrapper {
+        padding-left: 0;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    
+    #wrapper.toggled {
+        padding-left: 250px;
+    }
+    
+    #sidebar-wrapper {
+        z-index: 1000;
+        position: fixed;
+        left: 250px;
+        width: 0;
+        height: 100%;
+        margin-left: -250px;
+        overflow-y: auto;
+        background: #000;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    
+    #wrapper.toggled #sidebar-wrapper {
+        width: 250px;
+    }
+    
+    #page-content-wrapper {
+        width: 100%;
+        position: absolute;
+        padding: 15px;
+    }
+    
+    #wrapper.toggled #page-content-wrapper {
+        position: absolute;
+        margin-right: -250px;
+    }
+    
+    .navbar-fixed-top {
+        position: absolute;
+        background: #000;
+    }
+    
+    .content {
+        margin-top: 100px;
+    }
+    /* Sidebar Styles */
+    
+    .sidebar-nav {
+        position: absolute;
+        top: 0;
+        width: 250px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .sidebar-nav li {
+        text-indent: 20px;
+        line-height: 40px;
+    }
+    
+    .sidebar-nav li a {
+        display: block;
+        text-decoration: none;
+        color: #999999;
+    }
+    
+    .sidebar-nav li a:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+    .sidebar-nav li a:active,
+    .sidebar-nav li a:focus {
+        text-decoration: none;
+    }
+    
+    .sidebar-nav > .sidebar-brand {
+        height: 65px;
+        font-size: 18px;
+        line-height: 60px;
+    }
+    
+    .sidebar-nav > .sidebar-brand a {
+        color: #999999;
+    }
+    
+    .sidebar-nav > .sidebar-brand a:hover {
+        color: #fff;
+        background: none;
+    }
+    
+    @media(min-width:768px) {
+        #wrapper {
+            padding-left: 250px;
+        }
+        #wrapper.toggled {
+            padding-left: 0;
+        }
+        #sidebar-wrapper {
+            width: 250px;
+        }
+        #wrapper.toggled #sidebar-wrapper {
+            width: 0;
+        }
+        #page-content-wrapper {
+            padding: 20px;
+            position: relative;
+        }
+        #wrapper.toggled #page-content-wrapper {
+            position: relative;
+            margin-right: 0;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="">Services</a>
+                </li>
+                <?php
+				$host = $_SERVER['HTTP_HOST'];
+				preg_match("/[^\.\/]+\.[^\.\/]+$/", $host, $matches);
+				$url = $matches[0];
+				?>
+                <li class="header"><p>System</p></li>
+                <ul>
+                    <li><a href="http://db.<?php echo $url ?>">Databases</a></li>
+                    <li><a href="http://dashboard.<?php echo $url ?>">VM Dashboard</a></li>
+                    <li><a href="http://mail.<?php echo $url ?>">MailHog</a></li>
+                </ul>
+                <li class="header"><p>Development</p></li>
+                <ul>
+                    <li><a href="http://shopware.<?php echo $url ?>">Shopware Frontend</a></li>
+                    <li><a href="http://shopware.<?php echo $url ?>/backend">Shopware Backend</a></li>
+                </ul>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Fixed navbar -->
+            <div class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><i class="mr05 glyphicon glyphicon-console"></i>&nbsp;<?php echo gethostname(); ?></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Home</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a id="clock" style="font-size:2rem;"></a></li>
+                        </ul>
+                    </div>
+                    <!--/.nav-collapse -->
+                </div>
+            </div>
+            <div class="content container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">ML Default Indexpage</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p class="lead">This is the default index Page for
+                                    <a href="http://<?php echo $host; ?>">
+                                        <?php echo $host; ?>
+                                    </a>.</p>
+                                <p>Remove it and start Coding.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">PHP Info()</h2>
+                            </div>
+                            <div class="panel-body">
+                                <span>PHP Version running on this Vhost:</span><code><?php echo phpversion(); ?></code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">System Information</h2>
+                            </div>
+                            <div id="sysinfo" class="panel-body">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <div id="footer">
+        <div class="container">
+            <p class="text-muted credit text-center">&copy;
+                <?php echo date("Y") ?> <a href="http://mono-labs.de">mono-labs | S&ouml;ren Oehding</a>.</p>
+        </div>
+    </div>
+    <!-- script references -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    function updateClock() {
+        var currentTime = new Date();
+        var currentHours = currentTime.getHours();
+        var currentMinutes = currentTime.getMinutes();
+        var currentSeconds = currentTime.getSeconds();
+
+        // Pad the minutes and seconds with leading zeros, if required
+        currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+        currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+
+        // Choose either "AM" or "PM" as appropriate
+        var timeOfDay = (currentHours < 12) ? "AM" : "PM";
+
+        // Convert the hours component to 12-hour format if needed
+        currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
+
+        // Convert an hours component of "0" to "12"
+        currentHours = (currentHours == 0) ? 12 : currentHours;
+
+        // Compose the string for display
+        var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+
+
+        $("#clock").html(currentTimeString);
+
+    }
+
+    $(document).ready(function() {
+        setInterval('updateClock()', 1000);
+    });
+    </script>
+</body>
+
+</html>

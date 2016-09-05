@@ -1,0 +1,20 @@
+---
+
+- name: install add-apt-repository and https binaries for Ansible to work
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - python-software-properties
+    - apt-transport-https
+
+- name: install tools for compiling native addons from npm
+  apt: name={{ item }} state=present
+  with_items:
+    - build-essential
+  when: nodejs_compile
+
+- name: install nodejs
+  apt: name={{item}} state=present
+  with_items:
+    - nodejs
+    - nodejs-legacy
+    - npm

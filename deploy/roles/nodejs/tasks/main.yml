@@ -1,0 +1,7 @@
+---
+- name: set role variables, if necessary
+  include: set-role-variables.yml
+
+- name: delegate to APT system for installation
+  include: use-apt.yml
+  when: ansible_pkg_mgr == "apt"

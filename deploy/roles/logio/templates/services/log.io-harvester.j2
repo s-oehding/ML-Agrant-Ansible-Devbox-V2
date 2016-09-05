@@ -1,0 +1,6 @@
+description "start log.io harvester"
+start on runlevel [2345]
+stop on runlevel [016]
+respawn
+
+exec su -s /bin/sh -c 'exec "$0" "$@"' {{logio.logio_user}} -- /usr/local/bin/log.io-harvester

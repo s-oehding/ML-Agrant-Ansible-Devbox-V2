@@ -1,0 +1,13 @@
+---
+- name: log.io-server restart
+  service:
+    name: log.io-server
+    state: restarted
+
+- name: log.io-harvester restart
+  service:
+    name: log.io-harvester
+    state: restarted
+    
+- name: restart apache
+  action: service name=apache2 state=restarted

@@ -1,0 +1,14 @@
+---
+- hosts: all
+  # strategy: debug
+  gather_facts: yes
+  vars_files:
+    - config/config.yml
+    - vars/all.yml
+
+  roles:
+    - setup
+    - apache
+    - mysql
+    - php
+    - mywebsql

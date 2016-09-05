@@ -1,0 +1,114 @@
+---
+  - name: Apache2 | ensure apache is installed
+    apt: name=apache2 state=present
+
+  - name: Apache2 | install mod-fast-cgi
+    apt: name=libapache2-mod-fastcgi state=present
+
+  - name: Apache2 | enabled mod_actions
+    apache2_module: name=actions state=present
+    notify:
+      - restart apache
+
+  - name: Apache2 | enabled mod_fcgi
+    apache2_module: name=fastcgi state=present
+    notify:
+      - restart apache
+
+  - name: Apache2 | enabled mod_rewrite
+    apache2_module: name=rewrite state=present
+    notify:
+      - restart apache
+
+  - name: Apache2 | enabled mod_headers
+    apache2_module: name=headers state=present
+    notify:
+      - restart apache
+
+  - name: Apache2 | enabled mod_proxy
+    apache2_module: name=proxy state=present
+    notify:
+      - restart apache
+
+  - name: Apache2 | create php-fpm configuration
+    template: src=php-fpm.conf dest=/etc/apache2/conf-available/php-fpm.conf
+
+  - name: Apache2 | a2enconf php-fpm
+    command: a2enconf php-fpm
+    notify:
+      - restart apache
+
+  - name: Apache2 | create vhost folders
+    file: path=/var/www/{{ item }} state=directory
+    with_items: "{{ apache.vhosts.php56 }}"
+
+  - name: Apache2 | create vhost folders
+    file: path=/var/www/{{ item }} state=directory
+    with_items: "{{ apache.vhosts.php70 }}"
+
+  - name: Apache2 | remove default index
+    file: path=/var/www/html/index.html state=absent
+
+  - name: Apache2 | copy index file (Workaround)
+    copy: src=templates/index.php.j2 dest=/tmp/index.php.j2
+
+  - name: Apache2 | add index default
+    command: cp /tmp/index.php.j2 /var/www/html/index.php
+
+  - name: Apache2 | add index files for Vhosts
+    command: cp /tmp/index.php.j2 /var/www/{{ item }}/index.php
+    with_items: "{{ apache.vhosts.php56 }}"
+
+  - name: Apache2 | add index files for Vhosts
+    command: cp /tmp/index.php.j2 /var/www/{{ item }}/index.php
+    with_items: "{{ apache.vhosts.php70 }}"
+
+  - name: Apache2 | create default virtual host file
+    template: src=vhost.conf dest=/etc/apache2/sites-available/{{ setup.domain }}.conf
+
+  - name: Apache2 | create subdomain virtual host file with php-5.6 suport
+    template: src=sub-vhost-php56.conf dest=/etc/apache2/sites-available/{{ item }}.conf
+    with_items: "{{ apache.vhosts.php56 }}"
+    when: apache.vhosts.php56 is defined
+
+  - name: Apache2 | create subdomain virtual host file with php-7.0 suport
+    template: src=sub-vhost-php70.conf dest=/etc/apache2/sites-available/{{ item }}.conf
+    with_items: "{{ apache.vhosts.php70 }}"
+    when: apache.vhosts.php70 is defined
+
+  - name: Apache2 | a2ensite {{ setup.domain }}
+    command: a2ensite {{ setup.domain }}
+    args:
+      creates: /etc/apache2/sites-enabled/{{ setup.domain }}.conf
+    notify:
+      - restart apache
+
+  - name: Apache2 | a2ensite subdomains
+    command: a2ensite {{ item }}
+    args:
+      creates: /etc/apache2/sites-enabled/{{ item }}.conf
+    with_items: "{{ apache.vhosts.php56 }}"
+    notify:
+      - restart apache
+
+  - name: Apache2 | a2ensite subdomains
+    command: a2ensite {{ item }}
+    args:
+      creates: /etc/apache2/sites-enabled/{{ item }}.conf
+    with_items: "{{ apache.vhosts.php70 }}"
+    notify:
+      - restart apache
+
+  - name: Apache2 | Copy files
+    file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+
+  - name: Apache2 | Copy files
+    copy: src=fqdn.conf dest=/etc/apache2/conf-enabled/fqdn.conf
+
+  - name: Apache2 | Copy files
+    copy: src=nosendfile.conf dest=/etc/apache2/conf-enabled/nosendfile.conf
+    notify: 
+      - restart apache
+
+  - name: Apache2 | make sure apache is running
+    action: service name=apache2 state=started enabled=true

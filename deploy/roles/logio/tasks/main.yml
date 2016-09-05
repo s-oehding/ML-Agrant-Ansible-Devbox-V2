@@ -1,0 +1,55 @@
+---
+- name: LogIO | install NPM Packages
+  become_user: vagrant
+  become: yes
+  command: 'sudo npm install -g log.io --user "{{ logio.logio_user }}"'
+  args:
+    creates: /usr/bin/log.io-server
+
+- name: LogIO | config > Log server template
+  template:
+    src:  "config/log_server/log_server.conf"
+    dest: "/home/vagrant/.log.io/log_server.conf"
+  notify:
+    - log.io-server restart
+
+- name: LogIO | config > Web server template
+  template:
+    src:  "config/web_server/web_server.conf"
+    dest: "/home/vagrant/.log.io/web_server.conf"
+  notify:
+    - log.io-server restart
+
+- name: LogIO | config > Harvester template
+  template:
+    src:  "config/harvester/harvester.conf"
+    dest: "/home/vagrant/.log.io/harvester.conf"
+  notify:
+    - log.io-harvester restart
+
+- name: Apache2 | create subdomain virtual host file
+  template: src=config/apache/vhost.conf dest=/etc/apache2/sites-available/{{ logio.subdomain }}.conf
+
+- name: Apache2 | a2ensite {{ logio.subdomain }}.{{ setup.domain }}
+  command: a2ensite {{ logio.subdomain }}
+  args:
+    creates: /etc/apache2/sites-enabled/{{ logio.subdomain }}.conf
+  notify:
+    - restart apache
+
+- name: services > Server init
+  template:
+    src:   services/log.io-server.j2
+    dest:  /etc/init/log.io-server.conf
+    owner: root
+    mode:  0755
+
+- name: services > Harvester init
+  template:
+    src:   services/log.io-harvester.j2
+    dest:  /etc/init/log.io-harvester.conf
+    owner: root
+    mode:  0755
+
+- name: LogIO | reload services
+  command: 'sudo initctl reload-configuration'

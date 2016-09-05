@@ -1,0 +1,42 @@
+---
+- stat: path=/etc/php/7.0/cli/php.ini
+  register: phpcli
+
+- stat: path=/etc/php/7.0/cgi/php.ini
+  register: phpcgi
+
+- stat: path=/etc/php/7.0/fpm/php.ini
+  register: phpfpm
+
+- stat: path=/etc/php/5.6/cli/php.ini
+  register: phpcli
+
+- stat: path=/etc/php/5.6/cgi/php.ini
+  register: phpcgi
+
+- stat: path=/etc/php/5.6/fpm/php.ini
+  register: phpfpm
+
+- name: Place PHP 7.0 configuration file in place.
+  template:
+    src: php.ini.j2
+    dest: "{{ item }}/php.ini"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - /etc/php/7.0/cgi
+    - /etc/php/7.0/cli
+  notify: restart apache
+
+- name: Place PHP 5.6 configuration file in place.
+  template:
+    src: php.ini.j2
+    dest: "{{ item }}/php.ini"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - /etc/php/5.6/cgi
+    - /etc/php/5.6/cli
+  notify: restart apache
