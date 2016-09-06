@@ -28,7 +28,7 @@
     - /etc/php/7.0/cgi
     - /etc/php/7.0/cli
     - /etc/php/7.0/fpm
-  notify: restart apache
+  notify: restart php-fpm
 
 - name: Place PHP 5.6 configuration file in place.
   template:
@@ -41,4 +41,4 @@
     - /etc/php/5.6/cgi
     - /etc/php/5.6/cli
     - /etc/php/5.6/fpm
-  notify: restart apache
+  notify: restart php-fpm
