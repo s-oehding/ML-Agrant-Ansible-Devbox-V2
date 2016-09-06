@@ -27,6 +27,7 @@
   with_items:
     - /etc/php/7.0/cgi
     - /etc/php/7.0/cli
+    - /etc/php/7.0/fpm
   notify: restart apache
 
 - name: Place PHP 5.6 configuration file in place.
@@ -39,4 +40,5 @@
   with_items:
     - /etc/php/5.6/cgi
     - /etc/php/5.6/cli
+    - /etc/php/5.6/fpm
   notify: restart apache
