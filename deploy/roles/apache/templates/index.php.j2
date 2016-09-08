@@ -221,6 +221,42 @@
                                 <h2 class="panel-title">System Information</h2>
                             </div>
                             <div id="sysinfo" class="panel-body">
+                                <div class="table-responsive">
+                                   <table class="table table-condensed">
+                                      <thead>
+                                         <tr>
+                                            <th>System</th>
+                                            <th></th>
+                                         </tr>
+                                      </thead>
+                                      <tbody>
+                                         <tr>
+                                            <td><strong>Uptime:</strong></td>
+                                            <td><pre><?php system("uptime"); ?></pre></td>
+                                         </tr>
+                                         
+                                         <tr>
+                                            <td><strong>Information:</strong></td>
+                                            <td><pre><?php system("uname -a"); ?></pre></td>
+                                         </tr>
+
+                                         <tr>
+                                            <td><strong>CPU Information:</strong></td>
+                                            <td><pre><?php system("cat /proc/cpuinfo | grep \"model name\\|processor\""); ?></pre></td>
+                                         </tr>
+                                         
+                                         <tr>
+                                            <td><strong>Memory Usage (MB):</strong></td>
+                                            <td><pre><?php system("free -m"); ?></pre></td>
+                                         </tr>
+                                         
+                                         <tr>
+                                            <td><strong>Disk Usage:</strong></td>
+                                            <td><pre><?php system("df -h"); ?></pre></td>
+                                         </tr>
+                                      </tbody> 
+                                   </table>
+                                </div>
                             </div>
                         </div>
                     </div>
