@@ -28,12 +28,12 @@
     - log.io-harvester restart
 
 - name: Apache2 | create subdomain virtual host file
-  template: src=config/apache/vhost.conf dest=/etc/apache2/sites-available/{{ logio.subdomain }}.conf
+  template: src=config/apache/vhost.conf dest=/etc/apache2/sites-available/{{ logio.subdomain }}.{{ setup.domain }}.conf
 
 - name: Apache2 | a2ensite {{ logio.subdomain }}.{{ setup.domain }}
-  command: a2ensite {{ logio.subdomain }}
+  command: a2ensite {{ logio.subdomain }}.{{ setup.domain }}
   args:
-    creates: /etc/apache2/sites-enabled/{{ logio.subdomain }}.conf
+    creates: /etc/apache2/sites-enabled/{{ logio.subdomain }}.{{ setup.domain }}.conf
   notify:
     - restart apache
 
